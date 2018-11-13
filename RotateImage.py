@@ -6,7 +6,8 @@ class rotator:
 
     height = 0
     width = 0
-    angle = 360
+    angle = 90
+    radians = angle*(math.pi/180)
     img = cv2.imread('lena.jpg',0)
 
 
@@ -25,15 +26,15 @@ class rotator:
         empty = np.zeros((self.height*2,self.width*2),dtype="uint8")
         for x in range(self.width):
             for y in range(self.height):
-                if x<219 or y < 219:
-                    alpha = 1 * math.cos(self.angle)
-                    beta = 1 * math.sin(self.angle)
+                if x<220 or y < 220:
+                    #alpha = 1 * math.cos(self.radians)
+                    #beta = 1 * math.sin(self.radians)
                     temp = self.img[y,x]
-                    #xr = x*math.cos(self.angle)+y*math.sin(self.angle)
-                    #yr =  -x*math.sin(self.angle)+y*math.cos(self.angle)
+                    xr = x*math.cos(self.radians)-y*math.sin(self.radians)
+                    yr = x*math.sin(self.radians)+y*math.cos(self.radians)
 
-                    xr = alpha+beta+ (1-alpha)*(self.width/2)-beta*(self.height/2)
-                    yr = -beta + alpha + beta*(self.width/2)+(1-alpha)*(self.height/2)
+                    #xr = alpha+beta+ (1-alpha)*(self.width/2)-beta*(self.height/2)
+                    #yr = -beta + alpha + beta*(self.width/2)+(1-alpha)*(self.height/2)
 
                     empty[int(yr),int(xr)] = temp
 
