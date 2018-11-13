@@ -6,13 +6,13 @@ class rotator:
 
     height = 0
     width = 0
-    angle = 90
+    angle = 45
     radians = angle*(math.pi/180)
     img = cv2.imread('lena.jpg',0)
 
 
-    def __init__(self):
-        pass
+    #def __init__(self):
+    #    pass
 
     def showImg(name, self):
         cv2.imshow(name, self.img)
@@ -26,17 +26,17 @@ class rotator:
         empty = np.zeros((self.height*2,self.width*2),dtype="uint8")
         for x in range(self.width):
             for y in range(self.height):
-                if x<220 or y < 220:
-                    #alpha = 1 * math.cos(self.radians)
-                    #beta = 1 * math.sin(self.radians)
-                    temp = self.img[y,x]
-                    xr = x*math.cos(self.radians)-y*math.sin(self.radians)
-                    yr = x*math.sin(self.radians)+y*math.cos(self.radians)
 
-                    #xr = alpha+beta+ (1-alpha)*(self.width/2)-beta*(self.height/2)
-                    #yr = -beta + alpha + beta*(self.width/2)+(1-alpha)*(self.height/2)
+                #alpha = 1 * math.cos(self.radians)
+                #beta = 1 * math.sin(self.radians)
+                temp = self.img[y,x]
+                xr = int(x*math.cos(self.radians)-y*math.sin(self.radians))
+                yr = int(x*math.sin(self.radians)+y*math.cos(self.radians))
 
-                    empty[int(yr),int(xr)] = temp
+                #xr = alpha+beta+ (1-alpha)*(self.width/2)-beta*(self.height/2)
+                #yr = -beta + alpha + beta*(self.width/2)+(1-alpha)*(self.height/2)
+
+                empty[yr,xr] = temp
 
 
         cv2.imshow('rotated', empty)
