@@ -15,31 +15,44 @@ class rotator:
     #    pass
 
     def showImg(name, self):
+
         cv2.imshow(name, self.img)
         self.width,self.height = self.img.shape
+        self.img = np.pad(self.img, (220) ,'constant', constant_values=0)
 
     def printWH(self):
         print(self.width)
         print(self.height)
 
     def rotate(self):
-        empty = np.zeros((self.height*2,self.width*2),dtype="uint8")
+        emptyF = np.zeros((self.width,self.height),dtype="uint8")
+        emptyB = np.zeros((self.width,self.height),dtype="uint8")
+
+
         for x in range(self.width):
             for y in range(self.height):
 
+
                 #alpha = 1 * math.cos(self.radians)
                 #beta = 1 * math.sin(self.radians)
-                temp = self.img[y,x]
-                xr = int(x*math.cos(self.radians)-y*math.sin(self.radians))
-                yr = int(x*math.sin(self.radians)+y*math.cos(self.radians))
+                temp = self.img[x,y]
 
-                #xr = alpha+beta+ (1-alpha)*(self.width/2)-beta*(self.height/2)
-                #yr = -beta + alpha + beta*(self.width/2)+(1-alpha)*(self.height/2)
+                #forward mapping
+                xf = (x-self.width/2)*math.cos(self.radians)-(y-self.height/2)*math.sin(self.radians)+self.width/2
+                yf = (x-self.width/2)*math.sin(self.radians)+(y-self.height/2)*math.cos(self.radians)+self.width/2
 
-                empty[yr,xr] = temp
+                #backward mapping
+                xb = (x-self.width/2)*math.cos(self.radians)+(y-self.height/2)*math.sin(self.radians)+self.width/2
+                yb = -(x-self.width/2)*math.sin(self.radians)+(y-self.height/2)*math.cos(self.radians)+self.width/2
+
+                if xb < 660 and yb < 660 and xb>0 and yb > 0:
+                    emptyF[int(xf),int(yf)] = temp
 
 
-        cv2.imshow('rotated', empty)
+
+
+
+        cv2.imshow('Forward', emptyF)
 
 def main():
     rotator.showImg('normal', rotator)
