@@ -3,23 +3,20 @@ import math
 import numpy as np
 
 class rotator:
+    angle = 45
+    x = 330
+    y = 330
 
     height = 0
     width = 0
-    angle = 15
     radians = angle*(math.pi/180)
     img = cv2.imread('lena.jpg',0)
 
 
-    #def __init__(self):
-    #    pass
-
     def showImg(name, self):
-        #self.img = np.pad(self.img, (220) ,'constant', constant_values=0)
         cv2.imshow(name, self.img)
         self.img = np.pad(self.img, (220) ,'constant', constant_values=0)
         self.width,self.height = self.img.shape
-
 
     def printWH(self):
         print(self.width)
@@ -34,26 +31,24 @@ class rotator:
             for y in range(self.height):
 
 
-                #alpha = 1 * math.cos(self.radians)
-                #beta = 1 * math.sin(self.radians)
                 temp = self.img[x,y]
 
                 #forward mapping
-                xf = (x-self.width/2)*math.cos(self.radians)-(y-self.height/2)*math.sin(self.radians)+self.width/2
-                yf = (x-self.width/2)*math.sin(self.radians)+(y-self.height/2)*math.cos(self.radians)+self.width/2
+                xf = (x-self.x)*math.cos(self.radians)-(y-self.y)*math.sin(self.radians)+self.x
+                yf = (x-self.x)*math.sin(self.radians)+(y-self.y)*math.cos(self.radians)+self.x
 
                 #backward mapping
-                xb = (x-self.width/2)*math.cos(self.radians)+(y-self.height/2)*math.sin(self.radians)+self.width/2
-                yb = -(x-self.width/2)*math.sin(self.radians)+(y-self.height/2)*math.cos(self.radians)+self.width/2
+                xb = (x-self.x)*math.cos(self.radians)+(y-self.y)*math.sin(self.radians)+self.x
+                yb = -(x-self.x)*math.sin(self.radians)+(y-self.y)*math.cos(self.radians)+self.x
 
                 if xf < 660 and yf < 660 and xf>0 and yf > 0:
                     emptyF[int(xf),int(yf)] = temp
+                else:
+                    pass
                 if xb < 660 and yb < 660 and xb>0 and yb > 0:
                     emptyB[int(xb),int(yb)] = temp
-
-
-
-
+                else:
+                    pass
 
         cv2.imshow('Forward', emptyF)
         cv2.imshow('Backward', emptyB)
@@ -62,7 +57,6 @@ def main():
     rotator.showImg('normal', rotator)
     rotator.printWH(rotator)
     rotator.rotate(rotator)
-    #rotator.showImg('rotated', rotator)
     cv2.waitKey(0)
     cv2.destroyAllWindows
 
