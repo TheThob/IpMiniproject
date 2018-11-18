@@ -3,7 +3,7 @@ import math
 import numpy as np
 
 class rotator:
-    angle = 45
+    angle = 15
     x = 330
     y = 330
 
