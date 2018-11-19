@@ -3,11 +3,8 @@ import math
 import numpy as np
 
 class rotator:
-<<<<<<< HEAD
-    angle = 45.0
-=======
-    angle = 15
->>>>>>> c6dc8af777b542932544fcaa01c1f0aa907f5986
+
+    angle = 20.0
     x = 330
     y = 330
 
@@ -18,7 +15,7 @@ class rotator:
 
     def showImg(name, self):
         cv2.imshow(name, self.img)
-        #self.img = np.pad(self.img, (self.height) ,'constant', constant_values=0)
+        self.img = np.pad(self.img, (self.height) ,'constant', constant_values=0)
         self.width,self.height = self.img.shape
 
     def printWH(self):
@@ -26,8 +23,9 @@ class rotator:
         print(self.height)
 
     def rotate(self):
-        emptyF = np.zeros((self.width*3,self.height*3),dtype="uint8")
-        emptyB = np.zeros((self.width*3,self.height*3),dtype="uint8")
+        emptyF = np.zeros((self.width,self.height),dtype="uint8")
+        emptyB = np.zeros((self.width,self.height),dtype="uint8")
+        emptyBB = np.zeros((self.width,self.height),dtype="uint8")
 
 
         for i in range(self.width):
@@ -36,25 +34,46 @@ class rotator:
 
                 temp = self.img[i,j]
 
+                cosX = int((i-self.x)*math.cos(self.radians))
+                sinX = int((i-self.x)*math.sin(self.radians))
+
+                sinY = int((j-self.y)*math.sin(self.radians))
+                cosY = int((j-self.y)*math.cos(self.radians))
+
                 #forward mapping
-                xf = (i-self.x)*math.cos(self.radians)-(j-self.y)*math.sin(self.radians)+self.x
-                yf = (i-self.x)*math.sin(self.radians)+(j-self.y)*math.cos(self.radians)+self.x
+                xf = (cosX-sinY)+self.x
+                yf = (sinX+cosY)+self.x
+
+                #xf = (i-self.x)*math.cos(self.radians)-(j-self.y)*math.sin(self.radians)+self.x
+                #yf = (i-self.x)*math.sin(self.radians)+(j-self.y)*math.cos(self.radians)+self.x
+
 
                 #backward mapping should change the forward mapping to the original image
-                xb = (i-self.x)*math.cos(self.radians)+(j-self.y)*math.sin(self.radians)+self.x
-                yb = -(i-self.x)*math.sin(self.radians)+(j-self.y)*math.cos(self.radians)+self.x
+                xb = (xf-self.x)*math.cos(self.radians)+(yf-self.y)*math.sin(self.radians)+self.x
+                yb = -(xf-self.x)*math.sin(self.radians)+(yf-self.y)*math.cos(self.radians)+self.x
+
+                xbb = cosX+sinY+self.x
+                ybb = -sinX+cosY+self.x
+
 
                 if xf < 660 and yf < 660 and xf>0 and yf > 0:
                     emptyF[int(xf),int(yf)] = temp
                 else:
                     pass
+
                 if xb < 660 and yb < 660 and xb>0 and yb > 0:
                     emptyB[int(xb),int(yb)] = temp
                 else:
                     pass
 
+                if xbb < 660 and ybb < 660 and xbb>0 and ybb > 0:
+                    emptyBB[int(xbb),int(ybb)] = temp
+                else:
+                    pass
+
         cv2.imshow('Forward', emptyF)
-        cv2.imshow('Backward', emptyB)
+        cv2.imshow('Forward Backward', emptyB)
+        cv2.imshow('Backward', emptyBB)
 
 def main():
     rotator.showImg('normal', rotator)
