@@ -3,7 +3,11 @@ import math
 import numpy as np
 
 class rotator:
+<<<<<<< HEAD
     angle = 45.0
+=======
+    angle = 15
+>>>>>>> c6dc8af777b542932544fcaa01c1f0aa907f5986
     x = 330
     y = 330
 
