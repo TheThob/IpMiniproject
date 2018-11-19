@@ -34,26 +34,29 @@ class rotator:
 
                 temp = self.img[i,j]
 
-                cosX = int((i-self.x)*math.cos(self.radians))
-                sinX = int((i-self.x)*math.sin(self.radians))
+                #cosX = int((i-self.x)*math.cos(self.radians))
+                #sinX = int((i-self.x)*math.sin(self.radians))
 
-                sinY = int((j-self.y)*math.sin(self.radians))
-                cosY = int((j-self.y)*math.cos(self.radians))
+                #sinY = int((j-self.y)*math.sin(self.radians))
+                #cosY = int((j-self.y)*math.cos(self.radians))
 
                 #forward mapping
-                xf = (cosX-sinY)+self.x
-                yf = (sinX+cosY)+self.x
+                #xf = (cosX-sinY)+self.x
+                #yf = (sinX+cosY)+self.x
 
-                #xf = (i-self.x)*math.cos(self.radians)-(j-self.y)*math.sin(self.radians)+self.x
-                #yf = (i-self.x)*math.sin(self.radians)+(j-self.y)*math.cos(self.radians)+self.x
+                xf = (i-self.x)*math.cos(self.radians)-(j-self.y)*math.sin(self.radians)+self.x
+                yf = (i-self.x)*math.sin(self.radians)+(j-self.y)*math.cos(self.radians)+self.x
 
 
                 #backward mapping should change the forward mapping to the original image
-                xb = (xf-self.x)*math.cos(self.radians)+(yf-self.y)*math.sin(self.radians)+self.x
-                yb = -(xf-self.x)*math.sin(self.radians)+(yf-self.y)*math.cos(self.radians)+self.x
+                xbb = (i-self.x)*math.cos(self.radians)+(j-self.y)*math.sin(self.radians)+self.x
+                ybb = -(i-self.x)*math.sin(self.radians)+(j-self.y)*math.cos(self.radians)+self.x
 
-                xbb = cosX+sinY+self.x
-                ybb = -sinX+cosY+self.x
+                xbb = int(xbb)
+                ybb = int(ybb)
+
+                #xbb = cosX+sinY+self.x
+                #ybb = -sinX+cosY+self.x
 
 
                 if xf < 660 and yf < 660 and xf>0 and yf > 0:
@@ -61,18 +64,18 @@ class rotator:
                 else:
                     pass
 
-                if xb < 660 and yb < 660 and xb>0 and yb > 0:
-                    emptyB[int(xb),int(yb)] = temp
-                else:
-                    pass
+            #    if xb < 660 and yb < 660 and xb>0 and yb > 0:
+            #        emptyB[int(xb),int(yb)] = temp
+            #    else:
+            #        pass
 
                 if xbb < 660 and ybb < 660 and xbb>0 and ybb > 0:
-                    emptyBB[int(xbb),int(ybb)] = temp
+                    emptyBB[(xbb),(ybb)] = temp
                 else:
                     pass
 
         cv2.imshow('Forward', emptyF)
-        cv2.imshow('Forward Backward', emptyB)
+        #cv2.imshow('Forward Backward', emptyB)
         cv2.imshow('Backward', emptyBB)
 
 def main():
