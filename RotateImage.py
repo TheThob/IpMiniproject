@@ -3,19 +3,18 @@ import math
 import numpy as np
 
 class rotator:
-    angle = 45
+    angle = 45.0
     x = 330
     y = 330
 
-    height = 0
-    width = 0
-    radians = angle*(math.pi/180)
+    radians = float(angle*(math.pi/180))
     img = cv2.imread('lena.jpg',0)
+    width,height = img.shape
 
 
     def showImg(name, self):
         cv2.imshow(name, self.img)
-        self.img = np.pad(self.img, (220) ,'constant', constant_values=0)
+        #self.img = np.pad(self.img, (self.height) ,'constant', constant_values=0)
         self.width,self.height = self.img.shape
 
     def printWH(self):
@@ -23,23 +22,23 @@ class rotator:
         print(self.height)
 
     def rotate(self):
-        emptyF = np.zeros((self.width,self.height),dtype="uint8")
-        emptyB = np.zeros((self.width,self.height),dtype="uint8")
+        emptyF = np.zeros((self.width*3,self.height*3),dtype="uint8")
+        emptyB = np.zeros((self.width*3,self.height*3),dtype="uint8")
 
 
-        for x in range(self.width):
-            for y in range(self.height):
+        for i in range(self.width):
+            for j in range(self.height):
 
 
-                temp = self.img[x,y]
+                temp = self.img[i,j]
 
                 #forward mapping
-                xf = (x-self.x)*math.cos(self.radians)-(y-self.y)*math.sin(self.radians)+self.x
-                yf = (x-self.x)*math.sin(self.radians)+(y-self.y)*math.cos(self.radians)+self.x
+                xf = (i-self.x)*math.cos(self.radians)-(j-self.y)*math.sin(self.radians)+self.x
+                yf = (i-self.x)*math.sin(self.radians)+(j-self.y)*math.cos(self.radians)+self.x
 
-                #backward mapping
-                xb = (x-self.x)*math.cos(self.radians)+(y-self.y)*math.sin(self.radians)+self.x
-                yb = -(x-self.x)*math.sin(self.radians)+(y-self.y)*math.cos(self.radians)+self.x
+                #backward mapping should change the forward mapping to the original image
+                xb = (i-self.x)*math.cos(self.radians)+(j-self.y)*math.sin(self.radians)+self.x
+                yb = -(i-self.x)*math.sin(self.radians)+(j-self.y)*math.cos(self.radians)+self.x
 
                 if xf < 660 and yf < 660 and xf>0 and yf > 0:
                     emptyF[int(xf),int(yf)] = temp
