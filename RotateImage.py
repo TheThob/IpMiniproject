@@ -5,8 +5,8 @@ import numpy as np
 class rotator:
 
     angle = 20.0
-    x = 330
-    y = 330
+    x = 230
+    y = 230
 
     radians = float(angle*(math.pi/180))
     img = cv2.imread('lena.jpg',0)
@@ -48,7 +48,12 @@ class rotator:
                 yf = (i-self.x)*math.sin(self.radians)+(j-self.y)*math.cos(self.radians)+self.x
 
 
-                #backward mapping should change the forward mapping to the original image
+                #backward map of the forward mapped picture
+                xb = (xf-self.x)*math.cos(self.radians)+(yf-self.y)*math.sin(self.radians)+self.x
+                yb = -(xf-self.x)*math.sin(self.radians)+(yf-self.y)*math.cos(self.radians)+self.x
+
+
+                #backward map of the original image
                 xbb = (i-self.x)*math.cos(self.radians)+(j-self.y)*math.sin(self.radians)+self.x
                 ybb = -(i-self.x)*math.sin(self.radians)+(j-self.y)*math.cos(self.radians)+self.x
 
@@ -64,10 +69,10 @@ class rotator:
                 else:
                     pass
 
-            #    if xb < 660 and yb < 660 and xb>0 and yb > 0:
-            #        emptyB[int(xb),int(yb)] = temp
-            #    else:
-            #        pass
+                if xb < 660 and yb < 660 and xb>0 and yb > 0:
+                    emptyB[int(xb),int(yb)] = temp
+                else:
+                    pass
 
                 if xbb < 660 and ybb < 660 and xbb>0 and ybb > 0:
                     emptyBB[(xbb),(ybb)] = temp
@@ -75,7 +80,7 @@ class rotator:
                     pass
 
         cv2.imshow('Forward', emptyF)
-        #cv2.imshow('Forward Backward', emptyB)
+        cv2.imshow('Forward Backward', emptyB)
         cv2.imshow('Backward', emptyBB)
 
 def main():
