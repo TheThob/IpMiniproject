@@ -5,8 +5,8 @@ import numpy as np
 class rotator:
 
     angle = 20.0
-    x = 230
-    y = 230
+    x = 330
+    y = 330
 
     radians = float(angle*(math.pi/180))
     img = cv2.imread('lena.jpg',0)
@@ -34,18 +34,21 @@ class rotator:
 
                 temp = self.img[i,j]
 
-                #cosX = int((i-self.x)*math.cos(self.radians))
-                #sinX = int((i-self.x)*math.sin(self.radians))
+                ix = i-self.x
+            #    cosX = int(ix*math.cos(self.radians))
+            #    sinX = int(ix*math.sin(self.radians))
 
-                #sinY = int((j-self.y)*math.sin(self.radians))
-                #cosY = int((j-self.y)*math.cos(self.radians))
+
+                jy = j-self.y
+            #    sinY = int(jy*math.sin(self.radians))
+            #    cosY = int(jy*math.cos(self.radians))
 
                 #forward mapping
                 #xf = (cosX-sinY)+self.x
                 #yf = (sinX+cosY)+self.x
 
-                xf = (i-self.x)*math.cos(self.radians)-(j-self.y)*math.sin(self.radians)+self.x
-                yf = (i-self.x)*math.sin(self.radians)+(j-self.y)*math.cos(self.radians)+self.x
+                xf = int((i-self.x)*math.cos(self.radians)-(j-self.y)*math.sin(self.radians))+self.x
+                yf = int((i-self.x)*math.sin(self.radians)+(j-self.y)*math.cos(self.radians))+self.x
 
 
                 #backward map of the forward mapped picture
@@ -54,14 +57,12 @@ class rotator:
 
 
                 #backward map of the original image
-                xbb = (i-self.x)*math.cos(self.radians)+(j-self.y)*math.sin(self.radians)+self.x
-                ybb = -(i-self.x)*math.sin(self.radians)+(j-self.y)*math.cos(self.radians)+self.x
+                xbb = int((i-self.x)*math.cos(self.radians)+(j-self.y)*math.sin(self.radians)+self.x)
+                ybb = int(-(i-self.x)*math.sin(self.radians)+(j-self.y)*math.cos(self.radians)+self.x)
 
-                xbb = int(xbb)
-                ybb = int(ybb)
 
-                #xbb = cosX+sinY+self.x
-                #ybb = -sinX+cosY+self.x
+            #    xbb = cosX+sinY+self.x
+            #    ybb = -sinX+cosY+self.x
 
 
                 if xf < 660 and yf < 660 and xf>0 and yf > 0:
