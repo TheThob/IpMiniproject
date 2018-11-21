@@ -58,7 +58,7 @@ class rotator:
 
                 #backward map of the original image
                 xbb = int((i-self.x)*math.cos(self.radians)+(j-self.y)*math.sin(self.radians)+self.x)
-                ybb = int(-(i-self.x)*math.sin(self.radians)+(j-self.y)*math.cos(self.radians)+self.x)
+                ybb = int(-((i-self.x)*math.sin(self.radians))+((j-self.y)*math.cos(self.radians))+self.x)
 
 
             #    xbb = cosX+sinY+self.x
