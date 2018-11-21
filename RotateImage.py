@@ -47,7 +47,7 @@ class rotator:
                 else:
                     pass
 
-                if xfb <= 660 and yfb <= 660 and xfb>=0 and yfb >= 0:
+                if xfb <= self.width and yfb <= self.height and xfb>=0 and yfb >= 0:
                     emptyB[i,j] = self.img[int(xfb),int(yfb)]
                 else:
                     pass
