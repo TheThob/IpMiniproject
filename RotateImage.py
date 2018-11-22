@@ -21,6 +21,9 @@ class rotator:
         print(self.width)
         print(self.height)
 
+    def getImage(self):
+        return self.img
+
     def rotate(self):
         emptyF = np.zeros((self.width,self.height),dtype="uint8")
         emptyB = np.zeros((self.width,self.height),dtype="uint8")
@@ -61,10 +64,67 @@ class rotator:
         cv2.imshow('Forward Backward', emptyB)
         cv2.imshow('Backward', emptyBB)
 
+    def forward(self, img):
+        empty = np.zeros((self.width,self.height),dtype="uint8")
+
+        for i in range(self.width):
+            for j in range(self.height):
+
+                #forward mapping
+                x = int((i-self.x)*math.cos(self.radians)-(j-self.y)*math.sin(self.radians))+self.x
+                y = int((i-self.x)*math.sin(self.radians)+(j-self.y)*math.cos(self.radians))+self.x
+
+                if x < self.width and y < self.height and x>0 and y > 0:
+                    empty[i,j] = self.img[int(x),int(y)]
+                else:
+                    pass
+
+        return empty
+
+    def backward(self, img):
+        empty = np.zeros((self.width,self.height),dtype="uint8")
+
+        for i in range(self.width):
+            for j in range(self.height):
+
+                #forward mapping
+                x = int((i-self.x)*math.cos(self.radians)+(j-self.y)*math.sin(self.radians))+self.x
+                y = int(-(i-self.x)*math.sin(self.radians)+(j-self.y)*math.cos(self.radians))+self.x
+
+                if x < self.width and y < self.height and x>0 and y > 0:
+                    empty[i,j] = self.img[int(x),int(y)]
+                else:
+                    pass
+
+        return empty
+
+    def backwardForward(self, img):
+        empty = np.zeros((self.width,self.height),dtype="uint8")
+
+        for i in range(self.width):
+            for j in range(self.height):
+
+                #forward mapping
+                xO = int((i-self.x)*math.cos(self.radians)-(j-self.y)*math.sin(self.radians))+self.x
+                yO = int((i-self.x)*math.sin(self.radians)+(j-self.y)*math.cos(self.radians))+self.x
+
+                x = int((xO-self.x)*math.cos(self.radians)+(yO-self.y)*math.sin(self.radians))+self.x
+                y = int(-(xO-self.x)*math.sin(self.radians)+(yO-self.y)*math.cos(self.radians))+self.x
+
+                if x < self.width and y < self.height and x>0 and y > 0:
+                    empty[i,j] = self.img[int(x),int(y)]
+                else:
+                    pass
+
+        return empty
+
 def main():
     rotator.showImg('normal', rotator)
     rotator.printWH(rotator)
-    rotator.rotate(rotator)
+    #rotator.rotate(rotator)
+    cv2.imshow('forward', rotator.forward(rotator, rotator.getImage(rotator)))
+    cv2.imshow('backward', rotator.backward(rotator, rotator.getImage(rotator)))
+    cv2.imshow('foward image backward', rotator.backwardForward(rotator, rotator.getImage(rotator)))
     cv2.waitKey(0)
     cv2.destroyAllWindows
 
