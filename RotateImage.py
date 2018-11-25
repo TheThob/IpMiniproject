@@ -4,9 +4,9 @@ import numpy as np
 
 class rotator:
 
-    angle = 30.0
-    x = 330
-    y = 330
+    angle = 10.0
+    x = 100
+    y = 200
 
     radians = float(angle*(math.pi/180))
     img = cv2.imread('lena.jpg',0)
@@ -49,7 +49,7 @@ class rotator:
         for i in range(self.width):
             for j in range(self.height):
 
-                #forward mapping
+                #backward mapping
                 x = int((i-self.x)*math.cos(self.radians)+(j-self.y)*math.sin(self.radians))+self.x
                 y = int(-(i-self.x)*math.sin(self.radians)+(j-self.y)*math.cos(self.radians))+self.x
 
@@ -67,7 +67,7 @@ class rotator:
         for i in range(self.width):
             for j in range(self.height):
 
-                #forward mapping
+                #backwardForward mapping
                 xO = int((i-self.x)*math.cos(self.radians)-(j-self.y)*math.sin(self.radians))+self.x
                 yO = int((i-self.x)*math.sin(self.radians)+(j-self.y)*math.cos(self.radians))+self.x
 
